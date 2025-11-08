@@ -1,0 +1,62 @@
+#--------------------------------------------------
+#
+#                       ARCADIAMC
+#           by Christer Warén / Warén Group
+#
+#--------------------------------------------------
+
+on join:
+  message "[ARCADIAMC] Welcome back, %player%!"
+
+on vehicle entity collision:
+  if entity is not player:
+    if entity is not item:
+      if entity is not minecart:
+        kill entity
+        cancel event
+      if entity is minecart:
+        kill entity
+        cancel event
+
+on vehicle exit:
+  if event-vehicle is minecart:
+    wait 3 tick
+    kill event-vehicle
+
+on vehicle move:
+  if event-vehicle is minecart:
+    if entity is not player:
+      kill event-vehicle
+
+command /speed [<text>] [<number>] [<player>]:
+  description: Speed
+  executable by: players
+  trigger:
+    if arg-1 is not set:
+      stop
+    if arg-1 is set:
+      if arg-1 is "walk":
+        if arg-2 is not set:
+          stop
+        if arg-2 is set:
+          if arg-2 is greater than 10:
+            set player's walking speed to 0.2 * 10
+            stop
+          set player's walking speed to 0.2 * arg 2
+          stop
+      if arg-1 is "fly":
+        if arg-2 is not set:
+          stop
+        if arg-2 is set:
+          if arg-3 is not set:
+            if arg-2 is greater than 10:
+              set player's flying speed to 0.2 * 10
+              stop
+            set player's flying speed to 0.2 * arg 2
+            stop
+          if arg-3 is set:
+            if arg-2 is greater than 10:
+              set arg-3's flying speed to 0.2 * 10
+              stop
+            set arg-3's flying speed to 0.2 * arg 2
+            stop
